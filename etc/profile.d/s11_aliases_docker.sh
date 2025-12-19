@@ -1,3 +1,5 @@
+export S11_DC_DIR='/opt/s11_wd/dc'
+
 
 alias dc_cp='docker cp '
 alias dc_nw='docker network ls'
@@ -13,19 +15,24 @@ docker rm   ${T_CONTAINER_ID}
 
 
 
+dc_2_n8n(){ cd "${S11_DC_DIR}" ; docker compose -f dc_n8n.yaml      down ; docker compose -f dc_n8n.yaml     up -d ; }
+dc_1_n8n(){ cd "${S11_DC_DIR}" ; docker compose -f dc_n8n.yaml      down ; docker compose -f dc_n8n.yaml     up    ; }
+dc_0_n8n(){ cd "${S11_DC_DIR}" ; docker compose -f dc_n8n.yaml      down                                           ; }
 
-dc_2_m1me(){ cd "${SS_DC_DIR}" ; docker compose -f dc_m1me.yaml    down ; docker compose -f dc_m1me.yaml    up -d ; }
-dc_1_m1me(){ cd "${SS_DC_DIR}" ; docker compose -f dc_m1me.yaml    down ; docker compose -f dc_m1me.yaml    up    ; }
-dc_0_m1me(){ cd "${SS_DC_DIR}" ; docker compose -f dc_m1me.yaml    down                                           ; }
-dc_2_m2(){   cd "${SS_DC_DIR}" ; docker compose -f dc_m2.yaml      down ; docker compose -f dc_m2.yaml      up -d ; }
-dc_1_m2(){   cd "${SS_DC_DIR}" ; docker compose -f dc_m2.yaml      down ; docker compose -f dc_m2.yaml      up    ; }
-dc_0_m2(){   cd "${SS_DC_DIR}" ; docker compose -f dc_m2.yaml      down                                           ; }
-dc_2_me82(){ cd "${SS_DC_DIR}" ; docker compose -f dc_me82.yaml    down ; docker compose -f dc_me82.yaml    up -d ; }
-dc_1_me82(){ cd "${SS_DC_DIR}" ; docker compose -f dc_me82.yaml    down ; docker compose -f dc_me82.yaml    up    ; }
-dc_0_me82(){ cd "${SS_DC_DIR}" ; docker compose -f dc_me82.yaml    down                                           ; }
-dc_2_me83(){ cd "${SS_DC_DIR}" ; docker compose -f dc_meatlas.yaml down ; docker compose -f dc_meatlas.yaml up -d ; }
-dc_1_me83(){ cd "${SS_DC_DIR}" ; docker compose -f dc_meatlas.yaml down ; docker compose -f dc_meatlas.yaml up    ; }
-dc_0_me83(){ cd "${SS_DC_DIR}" ; docker compose -f dc_meatlas.yaml down                                           ; }
+
+
+dc_2_m1me(){ cd "${S11_DC_DIR}" ; docker compose -f dc_m1me.yaml    down ; docker compose -f dc_m1me.yaml    up -d ; }
+dc_1_m1me(){ cd "${S11_DC_DIR}" ; docker compose -f dc_m1me.yaml    down ; docker compose -f dc_m1me.yaml    up    ; }
+dc_0_m1me(){ cd "${S11_DC_DIR}" ; docker compose -f dc_m1me.yaml    down                                           ; }
+dc_2_m2(){   cd "${S11_DC_DIR}" ; docker compose -f dc_m2.yaml      down ; docker compose -f dc_m2.yaml      up -d ; }
+dc_1_m2(){   cd "${S11_DC_DIR}" ; docker compose -f dc_m2.yaml      down ; docker compose -f dc_m2.yaml      up    ; }
+dc_0_m2(){   cd "${S11_DC_DIR}" ; docker compose -f dc_m2.yaml      down                                           ; }
+dc_2_me82(){ cd "${S11_DC_DIR}" ; docker compose -f dc_me82.yaml    down ; docker compose -f dc_me82.yaml    up -d ; }
+dc_1_me82(){ cd "${S11_DC_DIR}" ; docker compose -f dc_me82.yaml    down ; docker compose -f dc_me82.yaml    up    ; }
+dc_0_me82(){ cd "${S11_DC_DIR}" ; docker compose -f dc_me82.yaml    down                                           ; }
+dc_2_me83(){ cd "${S11_DC_DIR}" ; docker compose -f dc_meatlas.yaml down ; docker compose -f dc_meatlas.yaml up -d ; }
+dc_1_me83(){ cd "${S11_DC_DIR}" ; docker compose -f dc_meatlas.yaml down ; docker compose -f dc_meatlas.yaml up    ; }
+dc_0_me83(){ cd "${S11_DC_DIR}" ; docker compose -f dc_meatlas.yaml down                                           ; }
 
 dc_exec_m1_mongosh()     { docker exec -it mongodb1 mongosh "mongodb://admin:password@localhost:27017" ; }
 dc_exec_m1_env()         { docker exec -it mongodb1 env ; }
