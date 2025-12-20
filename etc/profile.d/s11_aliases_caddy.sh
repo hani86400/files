@@ -11,4 +11,4 @@ alias caddy_J=' sudo journalctl -xeu    caddy_n8n.service -no-pager  -n 40'
 alias caddy_S=' sudo systemctl  status  caddy_n8n.service'
 alias caddy_SS=' caddy_S ; ps aux | grep caddy'
 
-alias find_caddy='find /etc/caddy /var/lib/caddy /var/log/caddy ; ls -l /usr/bin/caddy'
+alias find_caddy='sudo find /etc/caddy /var/lib/caddy /var/log/caddy ; ls -l /usr/bin/caddy'
