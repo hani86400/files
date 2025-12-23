@@ -1,0 +1,59 @@
+HTML_FILE=index2.html
+
+cat > "$HTML_FILE" <<EOHTMLCODE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>${HTML_INDEX_TITLE}</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f9fafb;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  h1 { color: #0a84ff; }
+</style>
+
+<script>
+  function randomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return \`rgb(\${r}, \${g}, \${b})\`;
+  }
+
+  function updateTime() {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mi = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById("clock").textContent =
+      \`\${yyyy}_\${mm}_\${dd}_\${hh}_\${mi}_\${ss}\`;
+  }
+
+  window.onload = function () {
+    document.body.style.backgroundColor = randomColor();
+    updateTime();
+  };
+</script>
+</head>
+
+<body>
+  <h1>APP ${HTML_INDEX_APP}</h1>
+  <h2 id="clock"></h2>
+  <h3>serve from server: (${HTML_INDEX_SERVER_ID})</h3>
+</body>
+</html>
+EOHTMLCODE

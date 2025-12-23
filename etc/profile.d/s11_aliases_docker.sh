@@ -13,6 +13,10 @@ docker stop ${T_CONTAINER_ID}
 docker rm   ${T_CONTAINER_ID}
 }
 
+dc_2_n8n_3(){ cd "${S11_DC_DIR}" ; docker compose -f dc_n8n_3.yaml      down ; docker compose -f dc_n8n_3.yaml     up -d ; }
+dc_1_n8n_3(){ cd "${S11_DC_DIR}" ; docker compose -f dc_n8n_3.yaml      down ; docker compose -f dc_n8n_3.yaml     up    ; }
+dc_0_n8n_3(){ cd "${S11_DC_DIR}" ; docker compose -f dc_n8n_3.yaml      down                                           ; }
+
 
 
 dc_2_n8n(){ cd "${S11_DC_DIR}" ; docker compose -f dc_n8n.yaml      down ; docker compose -f dc_n8n.yaml     up -d ; }
