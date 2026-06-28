@@ -1,0 +1,41 @@
+name:     WF_DEL_WORKFLOWS
+run-name: WF_DEL_WORKFLOWS BY ${{ github.actor }}
+on:
+ workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+   
+jobs:
+# :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+ JOB_ENV:
+  runs-on: ubuntu-latest
+  steps:
+#######################################################################
+#   STEP:                                              [ 2026_05_22 ] #      
+  - name: DEL_WORKFLOWS
+#######################################################################
+    id:   DEL_WORKFLOWS
+    env:
+     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    shell: bash 
+    run: |
+     WORKFLOW_RUN_IDS=$(gh api --paginate /repos/${GITHUB_REPOSITORY}/actions/runs | jq -r '.workflow_runs[].id')     
+     for id in $WORKFLOW_RUN_IDS
+     do
+      if [[ "$GITHUB_RUN_ID" != "$id" ]]
+      then
+       echo delete $id
+       echo "## 🔹 delete $id"                 >> $GITHUB_STEP_SUMMARY
+       gh api -X DELETE /repos/${GITHUB_REPOSITORY}/actions/runs/$id || true
+      else
+       echo skip current $id
+       echo "## 🔹 skip current $id"                 >> $GITHUB_STEP_SUMMARY
+      fi
+     done
+
+#    WORKFLOW_RUN_IDS=$(        gh api /repos/${GITHUB_REPOSITORY}/actions/runs | jq -r ".workflow_runs[] | [.id] | @tsv")     
+
+#   STEP [END] ########################################################
+#   JOB  [END] ::::::::::::::::::::::::::::::::::::::::::::::::::::::::

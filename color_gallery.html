@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Color Galleries</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    padding:20px;
+    background:#f5f5f5;
+}
+
+.colors_table{
+    border-collapse: collapse;
+    margin-bottom:25px;
+    background:white;
+}
+
+.colors_table td{
+    border:1px solid #ccc;
+    padding:6px;
+    text-align:center;
+    min-width:60px;
+}
+
+.colors_title{
+    font-weight:bold;
+    background:#eaeaea;
+}
+
+.color_box{
+    height:40px;
+}
+</style>
+
+<script>
+
+function colors_gallery(title,color_set)
+{
+    const table=document.createElement("table");
+    table.className="colors_table";
+
+    const count=color_set.length;
+
+    // Row 1 : title
+    let r1=document.createElement("tr");
+    let t=document.createElement("td");
+    t.colSpan=count;
+    t.className="colors_title";
+    t.innerText=title;
+    r1.appendChild(t);
+    table.appendChild(r1);
+
+    // Row 2 : numbers
+    let r2=document.createElement("tr");
+    for(let i=0;i<count;i++){
+        let td=document.createElement("td");
+        td.innerText=i+1;
+        r2.appendChild(td);
+    }
+    table.appendChild(r2);
+
+    // Row 3 : color boxes
+    let r3=document.createElement("tr");
+    for(let i=0;i<count;i++){
+        let td=document.createElement("td");
+        td.className="color_box";
+        td.style.background=color_set[i];
+        r3.appendChild(td);
+    }
+    table.appendChild(r3);
+
+    // Row 4 : values
+    let r4=document.createElement("tr");
+    for(let i=0;i<count;i++){
+        let td=document.createElement("td");
+        td.innerText=color_set[i];
+        r4.appendChild(td);
+    }
+    table.appendChild(r4);
+
+    document.body.appendChild(table);
+}
+
+</script>
+
+</head>
+
+<body>
+
+<script>
+
+var COLOR_SET_1=[
+"#FFB33F","#FF4400","#C00707",
+"#AEB784","#F6F09F","#FF7070",
+"#fce7f3","#fef3c7","#e5e7eb"
+];
+
+var COLOR_SET_2=[
+"red","green","blue","gold","purple"
+];
+
+colors_gallery("SET_1",COLOR_SET_1);
+colors_gallery("SET_2",COLOR_SET_2);
+
+</script>
+
+</body>
+</html>
