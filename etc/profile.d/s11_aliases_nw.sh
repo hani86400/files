@@ -7,9 +7,9 @@ alias nw_ss='ss -tulpn '
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # : [ Nginx ] 
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-alias cdnginx=' cd /etc/nginx        ; ls -latr' 
-alias cdnginxc='cd /etc/nginx/conf.d ; ls -latr' 
-alias cdnginxl='cd /var/log/nginx    ; ls -latr'
+alias cdnginx='    cd /etc/nginx        ; ls -latr' 
+alias cdnginxconf='cd /etc/nginx/conf.d ; ls -latr' 
+alias cdnginxlog=' cd /var/log/nginx    ; ls -latr ; '
 
 
 alias nginx_ss='        nginx_status ; ps aux | grep nginx '
