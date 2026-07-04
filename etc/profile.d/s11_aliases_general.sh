@@ -10,7 +10,6 @@ export LOG_FILE='/var/log/s11.log'
 export S11_SS='/var/lib/cloud/instance/user-data.txt'
 export S11_SS_LOG='/var/log/cloud-init-output.log'
 
- 
 alias s11_find_wd="find /opt/s11_wd"
 alias s11_find_dc="find /opt/s11_wd/dc"
 
@@ -32,7 +31,19 @@ alias H='     history'
 alias hgrep=' history | grep '
 alias hmore=' history | more '
 alias ll='ls -lAtrF'
-shopt -s histappend 
+shopt -s histappend
+his_info()	{ echo -e "HISTSIZE=\e[1;96m${HISTSIZE}\e[0m HISTFILESIZE=\e[1;96m${HISTFILESIZE}\e[0m HISTFILE=\e[1;96m${HISTFILE}\e[0m COMMAND#=\e[1;96m$(wc -l $HISTFILE | cut -d ' ' -f1) \e[0m" ; } 
+hoff()	{
+echo -e "\e[1;96m# [ HISTORY STOP  ]\e[0m export HISTFILE='/dev/null'"
+unset HISTFILE # OFF'set +o history'
+export HISTFILE='/dev/null'
+his_info
+}
+hon()	{
+echo -e "\e[1;96m# [ HISTORY START  ]\e[0m export HISTFILE="${HANI_HISTFILE}""
+export HISTFILE="${HANI_HISTFILE}"
+his_info
+}
 export PROMPT_COMMAND='history -a ; history -n' #export history ; import history
 export HISTCONTROL=ignoreboth 
 

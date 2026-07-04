@@ -1,11 +1,12 @@
 export S11_DC_DIR='/opt/s11_wd/dc'
 
 
-alias dc_cp='docker cp '
-alias dc_nw='docker network ls'
+alias dc_cp=' docker cp '
+alias dc_nw=' docker network ls'
 alias dc_img='docker images'
 
-function dc_ps(){ docker stats --no-stream -a ; echo ' ' ; docker ps -a ; }
+
+function dc_ps(){ docker stats --no-stream -a ; echo ' ' ; docker ps --no-trunc -a ; }
 function dc_kill_all_container(){ docker stop  $(docker ps -a -q) ; docker rm    $(docker ps -a -q) ; dc_ps ; }
 function dc_kill_container(){ 
 local T_CONTAINER_NAME=$1
@@ -14,16 +15,60 @@ docker stop ${T_CONTAINER_ID}
 docker rm   ${T_CONTAINER_ID}
 }
 
+dc_n8n_help(){
+cat <<EOF
+#
+# DB WEB
+#
+docker exec -it n8n_pgweb sh
+
+#
+# APP
+#
+docker exec     n8n_app node -e "require('fs').writeFileSync('/home/node/test-node.txt','hello'); console.log('OK')"
+docker exec     n8n_app env | grep EXECUTIONS_MODE
+docker exec -it n8n_app sh
+
+#
+# DB
+#
+docker exec     n8n_pg psql    -U n8n -d n8n -c "SELECT * FROM list8;" # "\dt" "\d list8"
+docker exec     n8n_pg psql    --help
+docker exec     n8n_pg pg_dump -U n8n -d n8n -t list8 --format=plain --column-inserts
+docker exec     n8n_pg pg_dump --version # --help
+docker exec     n8n_pg pgbench -U n8n -c 100 -j 2 -T 60 n8n
+
+docker inspect  --format='{{json .Config.Entrypoint}}'  mongo-express:1.0.2-20-alpine3.19
+docker exec -it meatlas1        cat /docker-entrypoint.sh
+docker exec -it meatlas1 sh -c 'cat /docker-entrypoint.sh'
+docker history --no-trunc mongo-express:1.0.2-20-alpine3.19 | grep -E 'ENTRYPOINT|CMD'
+#Overwrite the Entrypoint
+entrypoint: ["/bin/sh", "-c"]
+#Overwrite the Command (Arguments passed to entrypoint)
+command: ["echo 'Hello from Compose!'"]
+EOF
+} 
+
+
+dc_meatlas_2(){ cd /opt/containers/meatlas ; docker compose down ; docker compose up -d ; }
+dc_meatlas_1(){ cd /opt/containers/meatlas ; docker compose down ; docker compose up    ; }
+dc_meatlas_0(){ cd /opt/containers/meatlas ; docker compose down                        ; }
+
+
+
+dc_n8n_g1_2(){ cd /opt/containers/n8n_1_ad_dd_td ; docker compose down ; docker compose up -d ; }
+dc_n8n_g1_1(){ cd /opt/containers/n8n_1_ad_dd_td ; docker compose down ; docker compose up    ; }
+dc_n8n_g1_0(){ cd /opt/containers/n8n_1_ad_dd_td ; docker compose down                        ; }
+
+dc_n8n_g2_2(){ cd /opt/containers/n8n_2_ad_dr_td ; docker compose down ; docker compose up -d ; }
+dc_n8n_g2_1(){ cd /opt/containers/n8n_2_ad_dr_td ; docker compose down ; docker compose up    ; }
+dc_n8n_g2_0(){ cd /opt/containers/n8n_2_ad_dr_td ; docker compose down                        ; }
+
 
 dc_2_bb_d_h(){ cd "${S11_DC_DIR}" ; docker compose -f dc_bb_d_h.yaml      down ; docker compose -f dc_bb_d_h.yaml     up -d ; }
 dc_1_bb_d_h(){ cd "${S11_DC_DIR}" ; docker compose -f dc_bb_d_h.yaml      down ; docker compose -f dc_bb_d_h.yaml     up    ; }
 dc_0_bb_d_h(){ cd "${S11_DC_DIR}" ; docker compose -f dc_bb_d_h.yaml      down                                              ; }
 
-
-
-dc_2_n8n(){ cd "${S11_DC_DIR}" ; docker compose -f dc_n8n.yaml      down ; docker compose -f dc_n8n.yaml     up -d ; }
-dc_1_n8n(){ cd "${S11_DC_DIR}" ; docker compose -f dc_n8n.yaml      down ; docker compose -f dc_n8n.yaml     up    ; }
-dc_0_n8n(){ cd "${S11_DC_DIR}" ; docker compose -f dc_n8n.yaml      down                                           ; }
 
 
 

@@ -23,6 +23,7 @@ alias backup8_disable='   sudo systemctl disable backup8.service'
 alias backup8_enable='    sudo systemctl enable  backup8.service'
 alias backup8_mask='      sudo systemctl mask    backup8.service'
 alias backup8_unmask='    sudo systemctl unmask  backup8.service'
+alias backup8_journalctl='sudo journalctl -xeu   backup8.service'
 
 
 alias backup8_t_status='    sudo systemctl status  backup8.timer'
@@ -33,6 +34,7 @@ alias backup8_t_disable='   sudo systemctl disable backup8.timer'
 alias backup8_t_enable='    sudo systemctl enable  backup8.timer'
 alias backup8_t_mask='      sudo systemctl mask    backup8.timer'
 alias backup8_t_unmask='    sudo systemctl unmask  backup8.timer'
+alias backup8_t_journalctl='sudo journalctl -xeu   backup8.timer'
 
 fs_du () 
 { 
