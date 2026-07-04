@@ -15,7 +15,7 @@ docker stop ${T_CONTAINER_ID}
 docker rm   ${T_CONTAINER_ID}
 }
 
-dc_n8n_help(){
+dc_help_n8n(){
 cat <<EOF
 #
 # DB WEB
@@ -48,22 +48,6 @@ entrypoint: ["/bin/sh", "-c"]
 command: ["echo 'Hello from Compose!'"]
 EOF
 } 
-
-
-dc_meatlas_2(){ cd /opt/containers/meatlas ; docker compose down ; docker compose up -d ; }
-dc_meatlas_1(){ cd /opt/containers/meatlas ; docker compose down ; docker compose up    ; }
-dc_meatlas_0(){ cd /opt/containers/meatlas ; docker compose down                        ; }
-
-
-
-dc_n8n_g1_2(){ cd /opt/containers/n8n_1_ad_dd_td ; docker compose down ; docker compose up -d ; }
-dc_n8n_g1_1(){ cd /opt/containers/n8n_1_ad_dd_td ; docker compose down ; docker compose up    ; }
-dc_n8n_g1_0(){ cd /opt/containers/n8n_1_ad_dd_td ; docker compose down                        ; }
-
-dc_n8n_g2_2(){ cd /opt/containers/n8n_2_ad_dr_td ; docker compose down ; docker compose up -d ; }
-dc_n8n_g2_1(){ cd /opt/containers/n8n_2_ad_dr_td ; docker compose down ; docker compose up    ; }
-dc_n8n_g2_0(){ cd /opt/containers/n8n_2_ad_dr_td ; docker compose down                        ; }
-
 
 dc_2_bb_d_h(){ cd "${S11_DC_DIR}" ; docker compose -f dc_bb_d_h.yaml      down ; docker compose -f dc_bb_d_h.yaml     up -d ; }
 dc_1_bb_d_h(){ cd "${S11_DC_DIR}" ; docker compose -f dc_bb_d_h.yaml      down ; docker compose -f dc_bb_d_h.yaml     up    ; }

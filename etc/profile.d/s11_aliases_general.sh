@@ -20,8 +20,8 @@ alias s11_ss_log="cat ${S11_SS_LOG} ; ls -l  ${S11_SS_LOG} "
 alias s11_ss_nano="sudo nano ${S11_SS} "
 alias s11_ss_run="source ${S11_SS}"
 
-
-
+alias cdprofile='cd /etc/profile.d && ls -latr'
+alias cdcontainers='cd /opt/containers && ls -latr'
 
 alias ps10="export PS1='# '"
 alias ps11="export PS1='$ '"
