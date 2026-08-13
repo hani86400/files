@@ -1,12 +1,18 @@
 export S11_DC_DIR='/opt/s11_wd/dc'
 
+alias dc_info=' docker info '
+alias dc_cp='   docker cp '
+alias dc_nw='   docker network ls'
+alias dc_img='  docker images'
+alias dc_vol='  docker volume ls'
 
-alias dc_cp=' docker cp '
-alias dc_nw=' docker network ls'
-alias dc_img='docker images'
-
-
-function dc_ps(){ docker stats --no-stream -a ; echo ' ' ; docker ps --no-trunc -a ; }
+function dc_ps(){ 
+docker --version && docker compose version && systemctl is-active docker && id
+ls -ld /var/lib/docker /var/lib/containerd /docker /containerd
+docker stats --no-stream -a 
+echo ' ' 
+docker ps --no-trunc -a 
+}
 function dc_kill_all_container(){ docker stop  $(docker ps -a -q) ; docker rm    $(docker ps -a -q) ; dc_ps ; }
 function dc_kill_container(){ 
 local T_CONTAINER_NAME=$1
@@ -83,8 +89,7 @@ dc_exec_m2_mongoexport() { docker exec -i  mongodb2 mongoexport --db=mycompany -
 
 
 dc_run_opensusessh() { docker run -p 22156:22 --name opensusessh31 -it opensusessh:15.6 "/usr/sbin/sshd" "-D" ; }
-
-
+dc_run_alpine()      { docker run -it --rm --name alpine268  'alpine:20260805' '/bin/sh' ; }
 #######################################################################
 # f u n c t i o n                                       [2025_03_07 ] #
                  docker_build() {

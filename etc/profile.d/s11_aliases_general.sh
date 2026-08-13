@@ -360,38 +360,97 @@ systemctl enable docker
 
 
 } # f u n c t i o n [END] #############################################
-#######################################################################
-# f u n c t i o n                                      [ 2025_12_06 ] #
+
+
+# f u n c t i o n :::::::::::::::::::::::::::::::::::: [ 2026_08_13 ] :
                   s11_docker_install(){
-#######################################################################
+# :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+local LOC_ID=""
+local LOC_ID_LIKE=""
+local LOC_COMPOSE_DIR='/usr/libexec/docker/cli-plugins'
+local LOC_COMPOSE_BIN="${LOC_COMPOSE_DIR}/docker-compose"
+local LOC_COMPOSE_URL='https://github.com/docker/compose/releases/download/v2.24.7/docker-compose-linux-x86_64'
+
 log 'T' 's11_docker_install'
-#
-# Install Docker 
-#
-dnf update  -y
-dnf install -y docker 
+
+[[ -r /etc/os-release ]] && . /etc/os-release
+LOC_ID="${ID:-}"
+LOC_ID_LIKE="${ID_LIKE:-}"
 
 #
-# Install Docker Compose Plugin (v2)
+# 1. Install Docker engine
 #
-DOCKER_COMPOSE_DIR='/usr/libexec/docker/cli-plugins'
-DOCKER_COMPOSE_BIN="${DOCKER_COMPOSE_DIR}/docker-compose"
-DOCKER_COMPOSE_URL='https://github.com/docker/compose/releases/download/v5.0.0/docker-compose-linux-x86_64'
-DOCKER_COMPOSE_URL='https://github.com/docker/compose/releases/download/v2.24.7/docker-compose-linux-x86_64'
+case "${LOC_ID} ${LOC_ID_LIKE}" in
+    *ubuntu*|*debian*)
+        apt-get update  -y
+        apt-get install -y docker.io
+        ;;
+    *rhel*|*centos*|*fedora*|*rocky*|*alma*)
+        dnf update  -y
+        dnf install -y docker
+        ;;
+    *)
+        log 'ERROR' "s11_docker_install: unsupported OS (ID=${LOC_ID} ID_LIKE=${LOC_ID_LIKE})"
+        return 1
+        ;;
+esac
 
-mkdir -pv   "${DOCKER_COMPOSE_DIR}"
-curl -SL -o "${DOCKER_COMPOSE_BIN}" "${DOCKER_COMPOSE_URL}"
-chmod +x    "${DOCKER_COMPOSE_BIN}"
+# 2. Compose plugin: neither Ubuntu's docker.io nor RHEL's docker package ships it,
+# so fetch the v2 binary directly as a CLI plugin on both OSes.
+if ! docker compose version &>/dev/null
+then
+    mkdir -pv   "${LOC_COMPOSE_DIR}"
+    curl -SL -o "${LOC_COMPOSE_BIN}" "${LOC_COMPOSE_URL}"
+    chmod +x    "${LOC_COMPOSE_BIN}"
+fi
 
 #
-# Configration
+# 3. Allow OS_USER to run docker without sudo
 #
-usermod -aG      docker "${S11_OS_USER}"
+groupadd -f docker
+usermod -aG      docker ubuntu
+usermod -aG      docker ec2-user
+
+
 systemctl start  docker
 systemctl enable docker
 
+} # f u n c t i o n [END] :::::::::::::::::::::::::::::::::::::::::::::
+#######################################################################
+# f u n c t i o n                                      [ 2026_08_13 ] #
+                  s11_docker_relocate_storage(){
+#######################################################################
+cat <<EOF
 
-log 'INFO DOCKER_COMPOSE: ' " $(docker -v ; docker volume ls ; docker compose version ; docker images )"
+ls -ld /var/lib/docker /var/lib/containerd /docker /containerd
+
+#
+# Docker_relocate_storage
+#
+
+if [[ ! -d /docker ]]
+then
+    systemctl stop docker
+    systemctl stop docker.socket 2>/dev/null
+    systemctl stop containerd
+   
+    mv    /var/lib/docker /docker
+    ln -sfv /docker       /var/lib/docker
+fi
+
+if [[ ! -d /containerd ]]
+then
+    systemctl stop docker
+    systemctl stop docker.socket 2>/dev/null
+    systemctl stop containerd
+
+    mv    /var/lib/containerd /containerd
+    ln -sfv /containerd       /var/lib/containerd
+fi
+systemctl start  docker
+systemctl enable docker
+
+EOF
 } # f u n c t i o n [END] #############################################
 #######################################################################
 # f u n c t i o n                                      [ 2025_12_06 ] #
