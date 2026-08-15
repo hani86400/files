@@ -125,6 +125,20 @@ certbot_request() {
 certbot_renew() {
 certbot renew --quiet 
 } # f u n c t i o n [END] ::::::::::::::::::::::::::::::::::::::::::::: 
+
+# f u n c t i o n :::::::::::::::::::::::::::::::::::: [ 2026_08_15 ] :
+                  aws_volumes_help(){
+# :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cat <<'EOT'
+fdisk -l     && T_DEV='/dev/xvdd'
+file -s      "${T_DEV}" 
+mkfs -t ext4 "${T_DEV}" 
+file -s      "${T_DEV}" 
+T_DIR='/ebs8g' && mkdir -pv "${T_DIR}" && mount /dev/xvdd "${T_DIR}"
+EOT
+} # f u n c t i o n [END] :::::::::::::::::::::::::::::::::::::::::::::
+
+
 #######################################################################
 # f u n c t i o n                                      [ 2026_06_13 ] #
                     s11_help(){
