@@ -126,6 +126,62 @@ certbot_renew() {
 certbot renew --quiet 
 } # f u n c t i o n [END] ::::::::::::::::::::::::::::::::::::::::::::: 
 
+# f u n c t i o n :::::::::::::::::::::::::::::::::::: [ 2026_08_16 ] :
+                  ssh_github_conf(){
+# :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+if [[ $# -lt 2 ]]
+then
+    echo -e "ssh_github_conf \e[1;95m<​CONF_PATH>\e[0m \e[1;95m<​USERNAME>\e[0m \e[1;92m[KEY_PATH]\e[0m"
+    return 1
+fi
+
+local LOC_CONF_PATH="$1"
+local LOC_USERNAME="$2"
+local LOC_KEY_PATH="${3:-~/.ssh/key_github_vps}"
+local LOC_CONF_DIR=""
+
+if ! id "$LOC_USERNAME" &>/dev/null
+then
+    echo -e "\e[1;91mUser does not exist:\e[0m $LOC_USERNAME"
+    return 1
+fi
+
+LOC_CONF_DIR=$(dirname -- "$LOC_CONF_PATH")
+
+if [[ ! -d "$LOC_CONF_DIR" ]]
+then
+    sudo mkdir -p "$LOC_CONF_DIR"
+fi
+
+sudo tee "$LOC_CONF_PATH" > /dev/null << EOT
+Host github_vps
+     Hostname github.com
+     IdentityFile ${LOC_KEY_PATH}
+     User git
+     IdentitiesOnly yes
+EOT
+
+sudo chown "${LOC_USERNAME}:${LOC_USERNAME}" "$LOC_CONF_PATH"
+sudo chmod 600 "$LOC_CONF_PATH"
+
+echo -e "\e[1;92mCreated:\e[0m $LOC_CONF_PATH \e[1;92mowned by\e[0m $LOC_USERNAME \e[1;92m(600)\e[0m"
+
+} # f u n c t i o n [END] :::::::::::::::::::::::::::::::::::::::::::::
+# f u n c t i o n :::::::::::::::::::::::::::::::::::: [ 2026_08_16 ] :
+                  ssh_github_conf(){
+# :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cat <<'EOT'
+
+Host github_vps
+     Hostname github.com
+     IdentityFile ~/.ssh/key_github_vps
+     User git
+     IdentitiesOnly yes
+     
+EOT
+} # f u n c t i o n [END] :::::::::::::::::::::::::::::::::::::::::::::
+
+
 # f u n c t i o n :::::::::::::::::::::::::::::::::::: [ 2026_08_15 ] :
                   aws_volumes_help(){
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

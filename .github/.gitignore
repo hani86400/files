@@ -1,0 +1,11 @@
+.git
+client_files
+files
+etc/s11/s11_ss_al_core.sh
+exe
+exe/
+work_dir
+node_modules
+package-lock.json
+
+
