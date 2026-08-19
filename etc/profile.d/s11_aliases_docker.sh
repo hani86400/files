@@ -7,7 +7,7 @@ alias dc_img='  docker images'
 alias dc_vol='  docker volume ls'
 
 function dc_ps(){ 
-docker --version && docker compose version && systemctl is-active docker && id
+docker --version && docker compose version && systemctl is-active docker && id | grep docker
 ls -ld /var/lib/docker /var/lib/containerd /docker /containerd
 docker stats --no-stream -a 
 echo ' ' 

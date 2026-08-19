@@ -431,6 +431,23 @@ systemctl enable docker
 
 } # f u n c t i o n [END] #############################################
 
+# f u n c t i o n :::::::::::::::::::::::::::::::::::: [ 2026_08_18 ] :
+                  create_swapfile(){
+# :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+if [[ $# -lt 1 ]]
+then
+    echo -e "create_swapfile \e[1;95m<SIZE>\e[0m"
+    return 1
+fi
+
+local LOC_SIZE="$1"
+
+sudo fallocate -l "$LOC_SIZE" /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+} # f u n c t i o n [END] :::::::::::::::::::::::::::::::::::::::::::::
+
 
 # f u n c t i o n :::::::::::::::::::::::::::::::::::: [ 2026_08_13 ] :
                   s11_docker_install(){
