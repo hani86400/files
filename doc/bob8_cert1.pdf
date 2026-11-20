@@ -1,0 +1,62 @@
+%PDF-1.4
+1 0 obj
+<</Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+2 0 obj
+<</Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+3 0 obj
+<</Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 595 842]
+/Contents 5 0 R
+/Resources <</ProcSet [/PDF /Text]
+/Font <</F1 4 0 R>>
+>>
+>>
+endobj
+4 0 obj
+<</Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica-Bold
+/Encoding /MacRomanEncoding
+>>
+endobj
+5 0 obj
+<</Length 300
+>>
+stream
+1 1 0 rg
+0 0 595 842 re
+f
+1 0 0 rg
+BT
+/F1 222 Tf
+80 600 Td
+(Bob ) Tj
+ET
+1 0 0 rg
+BT
+/F1 55 Tf
+80 500 Td
+(Math Certificate ) Tj
+ET
+1 0 0 rg
+BT
+/F1 22 Tf
+80 440 Td
+(2025) Tj
+ET
+endstream
+endobj
+trailer
+<</Size 6
+/Root 1 0 R
+>>
+%%EOF
