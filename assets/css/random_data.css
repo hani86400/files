@@ -1,0 +1,124 @@
+* {
+    box-sizing: border-box;
+}
+ 
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+}
+ 
+.container {
+    width: 500px;
+    max-width: 100%;
+    margin: 40px auto;
+    background: #111827;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    box-shadow: 0 0 20px rgba(0,0,0,.4);
+}
+ 
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+ 
+label {
+    display: block;
+    margin: 12px 0 5px;
+    font-size: 14px;
+}
+ 
+input[type=text],
+input[type=email],
+input[type=number],
+input[type=password],
+input[type=date] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    background: #020617;
+    color: white;
+    font-size: 14px;
+    color-scheme: dark;
+}
+ 
+input:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+ 
+input.invalid {
+    border-color: #f87171;
+}
+ 
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 6px;
+}
+ 
+.options .item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+ 
+.options .item label {
+    display: inline;
+    margin: 0;
+    cursor: pointer;
+}
+ 
+.options .item input {
+    cursor: pointer;
+}
+ 
+.error {
+    display: none;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #f87171;
+}
+ 
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 22px;
+}
+ 
+button {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+}
+ 
+button:hover {
+    background: #1d4ed8;
+}
+ 
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+ 
+.status {
+    margin-top: 20px;
+    color: #93c5fd;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+ 
+.status.fail {
+    color: #f87171;
+}
+
