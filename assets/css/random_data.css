@@ -45,6 +45,35 @@ input[type=date] {
     font-size: 14px;
     color-scheme: dark;
 }
+
+input[type=text],
+input[type=email],
+input[type=number],
+input[type=password],
+input[type=date],
+input[type=file],
+select,
+option,
+fieldset {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    background: #020617;
+    color: white;
+    font-size: 14px;
+    color-scheme: dark;
+    box-sizing: border-box;
+}
+
+legend {
+    padding: 0 6px;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+
+
  
 input:focus {
     outline: none;
@@ -77,6 +106,13 @@ input.invalid {
 .options .item input {
     cursor: pointer;
 }
+
+.options.vertical {
+    flex-direction: column;
+    gap: 10px;
+}
+
+
  
 .error {
     display: none;

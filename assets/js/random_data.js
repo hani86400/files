@@ -6,6 +6,11 @@ const NUMBERS = "0123456789";
 const SYMBOLS = "!@#$%^&*()_+~|}{[]:;?><,./-=";
 const HEX = "0123456789abcdef";
 const COLORS = ["Red", "Green", "Blue", "Yellow", "Pink", "Cyan", "Purple", "Orange", "Gray", "Brown", "Mint", "Indigo"];
+const OBJECTS = ["pen", "key", "card", "coin", "ring", "earbuds", "USB drive", "button", "paperclip", "eraser", "pin", "stamp", "battery", "dice", "marble", "ticket", "badge", "screw", "needle", "charm"];
+const CONTAINERS = ["case", "packet", "pouch", "box", "wallet", "jar", "tin", "envelope", "bag", "drawer", "chest", "purse", "locket", "tube", "vial", "canister", "tray", "sleeve", "folder", "basket"];
+const OBJECTIVES = ["small", "big", "medium", "old", "new", "heavy", "light", "empty", "full", "clean", "dirty", "broken", "shiny", "worn", "wooden", "metal", "plastic", "locked", "open", "fragile"];
+const PHRASE = `The ${COLORS[0].toLowerCase()} ${OBJECTS[0]} in the ${OBJECTIVES[0]} ${CONTAINERS[3]}`;
+
 const NAMES = ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Hank", "Ivy", "Jack", "Kate", "Leo", "Mia", "Ned", "Oscar", "Paul", "Quin", "Rose", "Sam", "Tom"];
 
 function valid_ip4(ip)  { var IP4_PATTERN = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/; return typeof ip === 'string' && IP4_PATTERN.test(ip);}
@@ -13,6 +18,16 @@ function valid_ip6(ip)  { var IP6_PATTERN = /^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-
 function valid_email(e) { var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; return typeof e === 'string' && EMAIL_PATTERN.test(e);}
 
 
+function random_phrase() {
+//  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+  const color = random_array_element1(COLORS).toLowerCase();
+  const object = random_array_element1(OBJECTS);
+  const objective = random_array_element1(OBJECTIVES);
+  const container = random_array_element1(CONTAINERS);
+
+  return `The ${color} ${object} in the ${objective} ${container}`;
+}
 function random_integer(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 function random_array_element1(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 function random_array_element(arr, min, max, join) {
