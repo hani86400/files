@@ -283,41 +283,74 @@ function fn_form_input_fill_body(body, data) {
 }
 
 
-
 var report_tab = null;   // the report tab, reused by every submit
 
-// Posts the body, shows the status and writes the server reply into the report tab
+// Shows the server reply in the report tab; if the tab cannot be used, in a frame on this page
+function fn_form_input_show_report(tab, url, text) {
+    var frame;
+
+    if (tab) {
+        try {
+            tab.document.open();
+            tab.document.write('<base href="' + url + '">' + text);
+            tab.document.close();
+            tab.focus();   // bring the updated report to the front (some browsers ignore this)
+            return "tab";
+        } catch (err) {
+            console.error("Writing into the report tab failed:", err);   // falls through to the frame
+        }
+    }
+
+    frame = document.getElementById("report_frame");
+
+    if (!frame) {
+        frame = document.createElement("iframe");
+        frame.id = "report_frame";
+        frame.style.cssText = "width:100%;height:420px;margin-top:16px;border:1px solid #334155;background:#fff;";
+        document.getElementById("status").insertAdjacentElement("afterend", frame);
+    }
+
+    frame.srcdoc = '<base href="' + url + '">' + text;
+    return "frame";
+}
+
+// Posts the body, shows the status and shows the server reply (report tab, or frame as a fallback)
 async function fn_form_input_send(url, body, data) {
     var file = document.getElementById("fufile").files[0];
     var fileInfo = file ? file.name + " (" + (file.size / 1024).toFixed(1) + " KB)" : "none";
     var shown = JSON.stringify(data);
+    var reused = false;
+    var newTab = null;
 
     console.log("Payload:", data);
     console.log("File:", fileInfo);
     setStatus("Sending... " + shown + "\nFile: " + fileInfo, false);
     setButtonsDisabled(true);
 
-    // Same tab name every time: the first submit opens the tab, the next ones reuse it
-    const reused = report_tab !== null && !report_tab.closed;
-    const newTab = window.open("", "report_tab");
+    // Opened here, inside the click, so the popup is allowed. Inside an Apps Script page
+    // this can fail, and that must never stop the upload.
+    try {
+        reused = report_tab !== null && !report_tab.closed;
+        newTab = window.open("", "report_tab");   // same name every time: later submits reuse the tab
+    } catch (err) {
+        console.error("Opening the report tab failed:", err);
+    }
+
     report_tab = newTab;
 
     try {
         const response = await fetch(url, { method: "POST", body: body });
         const text = await response.text();
+        const where = fn_form_input_show_report(newTab, url, text);
 
         setButtonsDisabled(false);
-        setStatus("Sent: \n" + shown + "\nFile: " + fileInfo + "\nServer: \nReport opened in new tab.", false);
-
-        if (newTab) {
-            const baseTag = '<base href="' + url + '">';
-            newTab.document.open();
-            newTab.document.write(baseTag + text);
-            newTab.document.close();
-            newTab.focus();   // bring the updated report to the front (some browsers ignore this)
-        }
+        setStatus("Sent: \n" + shown + "\nFile: " + fileInfo + "\nServer: \nReport shown in " +
+                  (where === "tab" ? "the report tab." : "the frame below."), false);
     } catch (err) {
-        if (newTab && !reused) newTab.close();   // never close an earlier report that is still open
+        try {
+            if (newTab && !reused) newTab.close();   // never close an earlier report that is still open
+        } catch (ignore) {}
+
         setButtonsDisabled(false);
         setStatus("Send failed (" + (err.message || err) + "): " + shown, true);
     }
