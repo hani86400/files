@@ -282,7 +282,11 @@ function fn_form_input_fill_body(body, data) {
     return body;
 }
 
-// Posts the body, shows the status and writes the server reply into a new tab
+
+
+var report_tab = null;   // the report tab, reused by every submit
+
+// Posts the body, shows the status and writes the server reply into the report tab
 async function fn_form_input_send(url, body, data) {
     var file = document.getElementById("fufile").files[0];
     var fileInfo = file ? file.name + " (" + (file.size / 1024).toFixed(1) + " KB)" : "none";
@@ -293,7 +297,10 @@ async function fn_form_input_send(url, body, data) {
     setStatus("Sending... " + shown + "\nFile: " + fileInfo, false);
     setButtonsDisabled(true);
 
-    const newTab = window.open("", "_blank");
+    // Same tab name every time: the first submit opens the tab, the next ones reuse it
+    const reused = report_tab !== null && !report_tab.closed;
+    const newTab = window.open("", "report_tab");
+    report_tab = newTab;
 
     try {
         const response = await fetch(url, { method: "POST", body: body });
@@ -307,9 +314,10 @@ async function fn_form_input_send(url, body, data) {
             newTab.document.open();
             newTab.document.write(baseTag + text);
             newTab.document.close();
+            newTab.focus();   // bring the updated report to the front (some browsers ignore this)
         }
     } catch (err) {
-        if (newTab) newTab.close();
+        if (newTab && !reused) newTab.close();   // never close an earlier report that is still open
         setButtonsDisabled(false);
         setStatus("Send failed (" + (err.message || err) + "): " + shown, true);
     }
